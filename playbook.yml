@@ -1,0 +1,34 @@
+---
+- name: Konfiguracja serwera WWW
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Aktualizacja pakietow
+      apt:
+        update_cache: yes
+
+    - name: Instalacja Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Uruchomienie Apache
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Tworzenie strony testowej
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+          <head>
+              <title>Terraform + Ansible</title>
+          </head>
+          <body>
+              <h1>Terraform + Ansible działa!</h1>
+              <p>Autor: Mikolaj Kolaczyk</p>
+          </body>
+          </html>
